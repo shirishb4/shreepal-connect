@@ -23,6 +23,12 @@ const quickLinks = [
     href: "/committee",
   },
   {
+    icon: Building2,
+    title: "Redevelopment Committee",
+    description: "Redevelopment updates and contacts",
+    href: "/redevelopment",
+  },
+  {
     icon: FileText,
     title: "Documents",
     description: "Access notices, minutes & bylaws",
@@ -133,7 +139,7 @@ export default function Index() {
           <h2 className="text-2xl md:text-3xl font-heading text-foreground mb-8">
             Quick Access
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {quickLinks.map((link) => (
               <Link key={link.href} to={link.href} className="quick-link group">
                 <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-accent transition-colors">
