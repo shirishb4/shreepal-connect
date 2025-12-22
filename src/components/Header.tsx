@@ -7,6 +7,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/committee", label: "Committee" },
+  { href: "/redevelopment", label: "Redevelopment" },
   { href: "/emergency", label: "Emergency" },
   { href: "/documents", label: "Documents" },
   { href: "/notices", label: "Notices" },
@@ -26,7 +27,7 @@ export function Header() {
         <div className="section-container flex justify-between items-center text-sm">
           <div className="flex items-center gap-2">
             <Building2 className="h-4 w-4" />
-            <span className="hidden sm:inline">Shreepal Complex CHS Ltd.</span>
+            <span className="hidden sm:inline font-semibold text-base">Shreepal Complex CHS Ltd.</span>
           </div>
           <Link
             to="/emergency"
