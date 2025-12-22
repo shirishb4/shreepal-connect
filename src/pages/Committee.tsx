@@ -1,6 +1,8 @@
 import { Layout } from "@/components/Layout";
 import { PageHeader } from "@/components/PageHeader";
 import { CommitteeMemberCard } from "@/components/CommitteeMemberCard";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 const committeeMembers = [
   {
@@ -66,8 +68,25 @@ export default function Committee() {
             ))}
           </div>
 
+          {/* Redevelopment Committee Link */}
+          <div className="mt-12 p-6 bg-primary/10 rounded-xl border border-primary/20">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <h3 className="text-xl font-heading font-semibold text-foreground">Redevelopment Committee</h3>
+                <p className="text-muted-foreground mt-1">View our dedicated redevelopment committee members</p>
+              </div>
+              <Link
+                to="/redevelopment"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
+              >
+                View Committee
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+
           {/* Note */}
-          <div className="mt-12 p-6 bg-secondary rounded-xl">
+          <div className="mt-8 p-6 bg-secondary rounded-xl">
             <p className="text-muted-foreground text-center">
               <strong className="text-foreground">Office Hours:</strong> Monday to Saturday, 10:00 AM - 1:00 PM & 5:00 PM - 8:00 PM
               <br />
