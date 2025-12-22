@@ -15,14 +15,14 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    content: "shreepalcomplex@email.com",
-    href: "mailto:shreepalcomplex@email.com",
+    content: "shreepalcomplexchsltd@gmail.com",
+    href: "mailto:shreepalcomplexchsltd@gmail.com",
   },
   {
     icon: Phone,
     title: "Phone",
-    content: "+91 22 2540 1234",
-    href: "tel:+912225401234",
+    content: "+91 98190 68803",
+    href: "tel:+919819068803",
   },
   {
     icon: Clock,
