@@ -4,47 +4,49 @@ import { CommitteeMemberCard } from "@/components/CommitteeMemberCard";
 
 const committeeMembers = [
   {
-    name: "Mr. Ramesh Kumar Sharma",
-    designation: "Chairman",
-    phone: "+91 98201 12345",
-    email: "chairman@shreepalcomplex.com",
-  },
-  {
-    name: "Mr. Suresh Patel",
-    designation: "Secretary",
-    phone: "+91 98202 23456",
-    email: "secretary@shreepalcomplex.com",
-  },
-  {
-    name: "Mrs. Anita Desai",
-    designation: "Treasurer",
-    phone: "+91 98203 34567",
-    email: "treasurer@shreepalcomplex.com",
-  },
-  {
-    name: "Mr. Vijay Mehta",
-    designation: "Joint Secretary",
-    phone: "+91 98204 45678",
-  },
-  {
-    name: "Mrs. Priya Nair",
+    name: "Mr. Anand Rao",
     designation: "Committee Member",
-    phone: "+91 98205 56789",
+    phone: "",
   },
   {
-    name: "Mr. Anil Joshi",
+    name: "Mr. Shirish Bhambure",
     designation: "Committee Member",
-    phone: "+91 98206 67890",
+    phone: "",
   },
   {
-    name: "Mrs. Kavita Gupta",
+    name: "Mr. Mayur Shah",
     designation: "Committee Member",
-    phone: "+91 98207 78901",
+    phone: "",
   },
   {
-    name: "Mr. Prakash Kulkarni",
+    name: "Mr. K. N. Konar",
     designation: "Committee Member",
-    phone: "+91 98208 89012",
+    phone: "",
+  },
+  {
+    name: "Mr. Ashok Chaudhari",
+    designation: "Committee Member",
+    phone: "",
+  },
+  {
+    name: "Mr. Dilip Mahajan",
+    designation: "Committee Member",
+    phone: "",
+  },
+  {
+    name: "Mr. Vivek Mirgal",
+    designation: "Committee Member",
+    phone: "",
+  },
+  {
+    name: "Mrs. Pragati Chaudhari",
+    designation: "Committee Member",
+    phone: "",
+  },
+  {
+    name: "Mrs. Varsha Chaddawa",
+    designation: "Committee Member",
+    phone: "",
   },
 ];
 
@@ -58,28 +60,10 @@ export default function Committee() {
 
       <section className="py-12 md:py-16">
         <div className="section-container">
-          {/* Key Members */}
-          <div className="mb-12">
-            <h2 className="text-xl font-heading text-foreground mb-6">
-              Office Bearers
-            </h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {committeeMembers.slice(0, 3).map((member) => (
-                <CommitteeMemberCard key={member.name} {...member} />
-              ))}
-            </div>
-          </div>
-
-          {/* Other Members */}
-          <div>
-            <h2 className="text-xl font-heading text-foreground mb-6">
-              Committee Members
-            </h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {committeeMembers.slice(3).map((member) => (
-                <CommitteeMemberCard key={member.name} {...member} />
-              ))}
-            </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {committeeMembers.map((member) => (
+              <CommitteeMemberCard key={member.name} {...member} />
+            ))}
           </div>
 
           {/* Note */}
