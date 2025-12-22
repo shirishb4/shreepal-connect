@@ -4,30 +4,29 @@ import { CommitteeMemberCard } from "@/components/CommitteeMemberCard";
 
 const redevelopmentMembers = [
   {
-    name: "Mr. Ashok Verma",
-    designation: "Chairman - Redevelopment",
-    phone: "+91 98201 11111",
-    email: "redevelopment@shreepalcomplex.com",
+    name: "Mr. Sanjay Apte",
+    designation: "Committee Member",
+    phone: "",
   },
   {
-    name: "Mr. Sunil Patil",
-    designation: "Coordinator",
-    phone: "+91 98202 22222",
+    name: "Mr. Rajendra Hirlekar",
+    designation: "Committee Member",
+    phone: "",
   },
   {
-    name: "Mrs. Meera Joshi",
-    designation: "Member",
-    phone: "+91 98203 33333",
+    name: "Mr. Nitin Upasani",
+    designation: "Committee Member",
+    phone: "",
   },
   {
-    name: "Mr. Rajesh Iyer",
-    designation: "Member",
-    phone: "+91 98204 44444",
+    name: "Mr. Sanjay Jadhav",
+    designation: "Committee Member",
+    phone: "",
   },
   {
-    name: "Mr. Deepak Shah",
-    designation: "Member",
-    phone: "+91 98205 55555",
+    name: "Mr. Sameer Ghanvatkar",
+    designation: "Committee Member",
+    phone: "",
   },
 ];
 
