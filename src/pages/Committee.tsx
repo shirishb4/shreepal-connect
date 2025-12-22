@@ -3,6 +3,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { CommitteeMemberCard } from "@/components/CommitteeMemberCard";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import mcLogo from "@/assets/mc-logo.png";
 
 const committeeMembers = [
   {
@@ -62,6 +63,11 @@ export default function Committee() {
 
       <section className="py-12 md:py-16">
         <div className="section-container">
+          {/* Logo Section */}
+          <div className="flex justify-center mb-10">
+            <img src={mcLogo} alt="Managing Committee" className="w-48 h-48 rounded-xl object-cover shadow-lg" />
+          </div>
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {committeeMembers.map((member) => (
               <CommitteeMemberCard key={member.name} {...member} />
