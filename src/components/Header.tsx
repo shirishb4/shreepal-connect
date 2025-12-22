@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone, Building2 } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import shreepalLogo from "@/assets/shreepal-logo.png";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -26,7 +27,7 @@ export function Header() {
       <div className="bg-primary text-primary-foreground py-2">
         <div className="section-container flex justify-between items-center text-sm">
           <div className="flex items-center gap-2">
-            <Building2 className="h-4 w-4" />
+            <img src={shreepalLogo} alt="Shreepal Complex Logo" className="h-6 w-6 rounded" />
             <span className="hidden sm:inline font-semibold text-base">Shreepal Complex CHS Ltd.</span>
           </div>
           <Link
@@ -43,9 +44,7 @@ export function Header() {
       <nav className="section-container py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-              <Building2 className="h-7 w-7 text-primary-foreground" />
-            </div>
+            <img src={shreepalLogo} alt="Shreepal Complex Logo" className="w-12 h-12 rounded-lg object-cover" />
             <div className="hidden sm:block">
               <h1 className="font-heading text-lg font-bold text-foreground leading-tight">
                 Shreepal Complex
