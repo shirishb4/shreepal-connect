@@ -1,6 +1,7 @@
 import { Layout } from "@/components/Layout";
 import { PageHeader } from "@/components/PageHeader";
 import { CommitteeMemberCard } from "@/components/CommitteeMemberCard";
+import rcLogo from "@/assets/rc-logo.png";
 
 const redevelopmentMembers = [
   {
@@ -40,6 +41,11 @@ export default function Redevelopment() {
 
       <section className="py-12 md:py-16">
         <div className="section-container">
+          {/* Logo Section */}
+          <div className="flex justify-center mb-10">
+            <img src={rcLogo} alt="Redevelopment Committee" className="w-48 h-48 rounded-xl object-cover shadow-lg" />
+          </div>
+
           {/* Committee Members */}
           <div className="mb-12">
             <h2 className="text-xl font-heading text-foreground mb-6">
