@@ -157,6 +157,12 @@ export default function Auth() {
           member_name: memberName,
           contact_number: contactNumber,
           role: role,
+          units: units.map((unit) => ({
+            unit_type: unit.unit_type,
+            unit_number: unit.unit_number,
+            wing: unit.wing || "",
+            floor: unit.floor || "",
+          })),
         },
       },
     });
@@ -175,22 +181,6 @@ export default function Auth() {
       });
       setLoading(false);
       return;
-    }
-
-    // Insert units if user was created
-    if (data.user) {
-      const unitInserts = units.map((unit) => ({
-        user_id: data.user!.id,
-        unit_type: unit.unit_type as "flat" | "shop" | "commercial",
-        unit_number: unit.unit_number,
-        wing: unit.wing || null,
-        floor: unit.floor || null,
-      }));
-
-      const { error: unitError } = await supabase.from("units").insert(unitInserts);
-      if (unitError) {
-        console.error("Failed to insert units:", unitError);
-      }
     }
 
     toast({
