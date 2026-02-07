@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, Phone, LogIn, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 import shreepalLogo from "@/assets/shreepal-logo.png";
 
 const navLinks = [
@@ -18,8 +19,15 @@ const navLinks = [
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, signOut, loading } = useAuth();
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-card border-b border-border shadow-sm">
@@ -30,13 +38,33 @@ export function Header() {
             <img src={shreepalLogo} alt="Shreepal Complex Logo" className="h-6 w-6 rounded" />
             <span className="hidden sm:inline font-semibold text-base">Shreepal Complex CHS Ltd.</span>
           </div>
-          <Link
-            to="/emergency"
-            className="flex items-center gap-2 hover:underline"
-          >
-            <Phone className="h-4 w-4" />
-            <span>Emergency Contacts</span>
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link
+              to="/emergency"
+              className="flex items-center gap-2 hover:underline"
+            >
+              <Phone className="h-4 w-4" />
+              <span>Emergency Contacts</span>
+            </Link>
+            {!loading && (
+              <>
+                {user ? (
+                  <button
+                    onClick={handleSignOut}
+                    className="flex items-center gap-1 hover:underline"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    <span className="hidden sm:inline">Logout</span>
+                  </button>
+                ) : (
+                  <Link to="/auth" className="flex items-center gap-1 hover:underline">
+                    <LogIn className="h-4 w-4" />
+                    <span className="hidden sm:inline">Login</span>
+                  </Link>
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
 
@@ -70,6 +98,18 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+            {user && (
+              <Link
+                to="/auth"
+                className={`px-3 py-2 rounded-md transition-colors ${
+                  isActive("/auth")
+                    ? "bg-secondary text-secondary-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                }`}
+              >
+                <User className="h-5 w-5" />
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -106,6 +146,16 @@ export function Header() {
                   {link.label}
                 </Link>
               ))}
+              {!user && (
+                <Link
+                  to="/auth"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="px-4 py-3 rounded-md text-body font-medium text-accent hover:bg-muted flex items-center gap-2"
+                >
+                  <LogIn className="h-5 w-5" />
+                  Login / Sign Up
+                </Link>
+              )}
             </div>
           </div>
         )}
