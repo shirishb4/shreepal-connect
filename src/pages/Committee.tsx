@@ -32,22 +32,22 @@ const committeeMembers = [
     phone: "",
   },
   {
-    name: "Mr. Dilip Mahajan",
-    designation: "Committee Member",
-    phone: "",
-  },
-  {
-    name: "Mr. Vivek Mirgal",
-    designation: "Committee Member",
-    phone: "",
-  },
-  {
     name: "Mrs. Pragati Chaudhari",
     designation: "Committee Member",
     phone: "",
   },
   {
     name: "Mrs. Varsha Chaddawa",
+    designation: "Committee Member",
+    phone: "",
+  },
+  {
+    name: "Mr. Dilip Mahajan",
+    designation: "Committee Member",
+    phone: "",
+  },
+  {
+    name: "Mr. Vivek Mirgal",
     designation: "Committee Member",
     phone: "",
   },
