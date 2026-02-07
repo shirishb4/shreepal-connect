@@ -9,8 +9,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { User, Save, Plus, Trash2, Loader2, Mail, Phone as PhoneIcon, Home } from "lucide-react";
+import { User, Save, Plus, Trash2, Loader2, Mail, Phone as PhoneIcon, Home, Shield, ShieldCheck } from "lucide-react";
 import { ChangeEmailDialog } from "@/components/ChangeEmailDialog";
+import { Badge } from "@/components/ui/badge";
 import { z } from "zod";
 
 interface Profile {
@@ -49,6 +50,7 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [userRole, setUserRole] = useState<{ role: string; is_approved: boolean } | null>(null);
 
   // Editable state
   const [memberName, setMemberName] = useState("");
@@ -74,9 +76,10 @@ export default function ProfilePage() {
 
   const fetchData = async () => {
     setLoading(true);
-    const [profileRes, unitsRes] = await Promise.all([
+    const [profileRes, unitsRes, roleRes] = await Promise.all([
       supabase.from("profiles").select("*").eq("id", user!.id).single(),
       supabase.from("units").select("*").eq("user_id", user!.id).order("created_at"),
+      supabase.from("user_roles").select("role, is_approved").eq("user_id", user!.id).single(),
     ]);
 
     if (profileRes.data) {
@@ -96,6 +99,10 @@ export default function ProfilePage() {
           floor: u.floor || "",
         }))
       );
+    }
+
+    if (roleRes.data) {
+      setUserRole(roleRes.data);
     }
 
     setLoading(false);
@@ -237,13 +244,35 @@ export default function ProfilePage() {
           <form onSubmit={handleSave} className="space-y-8">
             {/* Profile Info */}
             <div className="bg-card border border-border rounded-xl p-6">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <User className="h-5 w-5 text-primary" />
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <User className="h-5 w-5 text-primary" />
+                  </div>
+                  <h2 className="text-lg font-heading font-semibold text-foreground">
+                    Personal Information
+                  </h2>
                 </div>
-                <h2 className="text-lg font-heading font-semibold text-foreground">
-                  Personal Information
-                </h2>
+                {userRole && (
+                  <div className="flex items-center gap-2">
+                    <Badge
+                      variant={userRole.is_approved ? "default" : "secondary"}
+                      className="flex items-center gap-1"
+                    >
+                      {userRole.is_approved ? (
+                        <ShieldCheck className="h-3.5 w-3.5" />
+                      ) : (
+                        <Shield className="h-3.5 w-3.5" />
+                      )}
+                      {userRole.role === "committee_member" ? "Committee Member" : "Member"}
+                    </Badge>
+                    {!userRole.is_approved && (
+                      <Badge variant="outline" className="text-destructive border-destructive/50">
+                        Pending Approval
+                      </Badge>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="space-y-4">
