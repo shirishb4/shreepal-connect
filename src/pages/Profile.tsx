@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { User, Save, Plus, Trash2, Loader2, Mail, Phone as PhoneIcon, Home } from "lucide-react";
+import { ChangeEmailDialog } from "@/components/ChangeEmailDialog";
 import { z } from "zod";
 
 interface Profile {
@@ -247,10 +248,13 @@ export default function ProfilePage() {
 
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="profile-email" className="flex items-center gap-2">
-                    <Mail className="h-3.5 w-3.5 text-muted-foreground" />
-                    Email
-                  </Label>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="profile-email" className="flex items-center gap-2">
+                      <Mail className="h-3.5 w-3.5 text-muted-foreground" />
+                      Email
+                    </Label>
+                    <ChangeEmailDialog currentEmail={user.email || ""} />
+                  </div>
                   <Input
                     id="profile-email"
                     type="email"
@@ -258,9 +262,6 @@ export default function ProfilePage() {
                     disabled
                     className="bg-muted"
                   />
-                  <p className="text-xs text-muted-foreground">
-                    Email cannot be changed here
-                  </p>
                 </div>
 
                 <div className="space-y-2">
