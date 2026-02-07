@@ -150,48 +150,60 @@ export default function Auth() {
     }
 
     setLoading(true);
-    const { data, error } = await supabase.auth.signUp({
-      email: signupEmail,
-      password: signupPassword,
-      options: {
-        emailRedirectTo: window.location.origin,
-        data: {
-          member_name: memberName,
-          contact_number: contactNumber,
-          role: role,
-          units: units.map((unit) => ({
-            unit_type: unit.unit_type,
-            unit_number: unit.unit_number,
-            wing: unit.wing || "",
-            floor: unit.floor || "",
-            occupancy_status: unit.occupancy_status,
-          })),
-        },
-      },
-    });
 
-    if (error) {
-      const isRateLimit = error.message?.toLowerCase().includes("rate limit") || error.status === 429;
-      if (isRateLimit) {
-        startCooldown(60);
+    try {
+      // Use edge function to create user with auto-confirmed email
+      const response = await supabase.functions.invoke("admin-auth", {
+        body: {
+          action: "signup",
+          email: signupEmail,
+          password: signupPassword,
+          user_metadata: {
+            member_name: memberName,
+            contact_number: contactNumber,
+            role: role,
+            units: units.map((unit) => ({
+              unit_type: unit.unit_type,
+              unit_number: unit.unit_number,
+              wing: unit.wing || "",
+              floor: unit.floor || "",
+              occupancy_status: unit.occupancy_status,
+            })),
+          },
+        },
+      });
+
+      if (response.error || response.data?.error) {
+        const errorMsg = response.data?.error || response.error?.message || "Signup failed";
+        const isRateLimit = errorMsg.toLowerCase().includes("rate limit");
+        if (isRateLimit) {
+          startCooldown(60);
+        }
+        toast({
+          title: isRateLimit ? "Too Many Attempts" : "Signup Failed",
+          description: isRateLimit
+            ? "Email rate limit exceeded. Please wait 60 seconds before trying again."
+            : errorMsg,
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
       }
+
       toast({
-        title: isRateLimit ? "Too Many Attempts" : "Signup Failed",
-        description: isRateLimit
-          ? "Email rate limit exceeded. Please wait 60 seconds before trying again."
-          : error.message,
+        title: "Account Created!",
+        description: "Your account is ready. You can now log in.",
+      });
+      setLoading(false);
+      setActiveTab("login");
+    } catch (err: any) {
+      toast({
+        title: "Signup Failed",
+        description: err.message || "An unexpected error occurred.",
         variant: "destructive",
       });
       setLoading(false);
-      return;
     }
-
-    toast({
-      title: "Account Created!",
-      description: "Please check your email to verify your account.",
-    });
-    setLoading(false);
-    setActiveTab("login");
   };
 
   return (
