@@ -85,6 +85,39 @@ export type Database = {
         }
         Relationships: []
       }
+      parking_vehicles: {
+        Row: {
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+          vehicle_make: string | null
+          vehicle_model: string | null
+          vehicle_number: string
+          vehicle_type: Database["public"]["Enums"]["vehicle_type"]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+          vehicle_make?: string | null
+          vehicle_model?: string | null
+          vehicle_number: string
+          vehicle_type: Database["public"]["Enums"]["vehicle_type"]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+          vehicle_make?: string | null
+          vehicle_model?: string | null
+          vehicle_number?: string
+          vehicle_type?: Database["public"]["Enums"]["vehicle_type"]
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           contact_number: string
@@ -114,6 +147,7 @@ export type Database = {
           created_at: string
           floor: string | null
           id: string
+          occupancy_status: Database["public"]["Enums"]["occupancy_status"]
           unit_number: string
           unit_type: Database["public"]["Enums"]["unit_type"]
           user_id: string
@@ -123,6 +157,7 @@ export type Database = {
           created_at?: string
           floor?: string | null
           id?: string
+          occupancy_status?: Database["public"]["Enums"]["occupancy_status"]
           unit_number: string
           unit_type: Database["public"]["Enums"]["unit_type"]
           user_id: string
@@ -132,6 +167,7 @@ export type Database = {
           created_at?: string
           floor?: string | null
           id?: string
+          occupancy_status?: Database["public"]["Enums"]["occupancy_status"]
           unit_number?: string
           unit_type?: Database["public"]["Enums"]["unit_type"]
           user_id?: string
@@ -187,7 +223,9 @@ export type Database = {
     }
     Enums: {
       app_role: "member" | "committee_member"
+      occupancy_status: "self_occupied" | "rented" | "leased"
       unit_type: "flat" | "shop" | "commercial"
+      vehicle_type: "two_wheeler" | "four_wheeler"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -316,7 +354,9 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["member", "committee_member"],
+      occupancy_status: ["self_occupied", "rented", "leased"],
       unit_type: ["flat", "shop", "commercial"],
+      vehicle_type: ["two_wheeler", "four_wheeler"],
     },
   },
 } as const
