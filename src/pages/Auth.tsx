@@ -148,9 +148,12 @@ export default function Auth() {
     });
 
     if (error) {
+      const isRateLimit = error.message?.toLowerCase().includes("rate limit") || error.status === 429;
       toast({
-        title: "Signup Failed",
-        description: error.message,
+        title: isRateLimit ? "Too Many Attempts" : "Signup Failed",
+        description: isRateLimit
+          ? "Email rate limit exceeded. Please wait a few minutes before trying again."
+          : error.message,
         variant: "destructive",
       });
       setLoading(false);
