@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Building2, Plus, Trash2, LogIn, UserPlus } from "lucide-react";
+import { ForgotPasswordDialog } from "@/components/ForgotPasswordDialog";
 import { z } from "zod";
 
 const loginSchema = z.object({
@@ -260,9 +261,12 @@ export default function Auth() {
                       <p className="text-sm text-destructive">{errors.login_password}</p>
                     )}
                   </div>
-                  <Button type="submit" className="w-full" disabled={loading}>
-                    {loading ? "Logging in..." : "Login"}
-                  </Button>
+                  <div className="flex items-center justify-between">
+                    <ForgotPasswordDialog />
+                    <Button type="submit" className="ml-auto" disabled={loading}>
+                      {loading ? "Logging in..." : "Login"}
+                    </Button>
+                  </div>
                 </form>
               </TabsContent>
 
