@@ -115,14 +115,15 @@ export function Header() {
             )}
             {user && (
               <Link
-                to="/auth"
-                className={`px-3 py-2 rounded-md transition-colors ${
-                  isActive("/auth")
+                to="/profile"
+                className={`px-3 py-2 rounded-md transition-colors flex items-center gap-1 text-body font-medium ${
+                  isActive("/profile")
                     ? "bg-secondary text-secondary-foreground"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
-                <User className="h-5 w-5" />
+                <User className="h-4 w-4" />
+                <span className="hidden xl:inline">Profile</span>
               </Link>
             )}
           </div>
@@ -173,6 +174,20 @@ export function Header() {
                 >
                   <LayoutDashboard className="h-5 w-5" />
                   Dashboard
+                </Link>
+              )}
+              {user && (
+                <Link
+                  to="/profile"
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`px-4 py-3 rounded-md text-body font-medium transition-colors flex items-center gap-2 ${
+                    isActive("/profile")
+                      ? "bg-secondary text-secondary-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  }`}
+                >
+                  <User className="h-5 w-5" />
+                  My Profile
                 </Link>
               )}
               {!user && (
