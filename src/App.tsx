@@ -13,6 +13,7 @@ import Documents from "./pages/Documents";
 import Notices from "./pages/Notices";
 import Contact from "./pages/Contact";
 import Auth from "./pages/Auth";
+import CommitteeDashboard from "./pages/CommitteeDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/notices" element={<Notices />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/dashboard" element={<CommitteeDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
