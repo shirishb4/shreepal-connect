@@ -5,8 +5,10 @@ import { PageHeader } from "@/components/PageHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserRole } from "@/hooks/useUserRole";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Building2, Clock, CheckCircle2, XCircle, Loader2, ShieldAlert } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Users, Building2, Clock, CheckCircle2, XCircle, Loader2, ShieldAlert, ShieldOff } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -21,6 +23,17 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { PendingApprovalsTab } from "@/components/PendingApprovalsTab";
 
 interface MemberProfile {
@@ -55,6 +68,9 @@ export default function CommitteeDashboard() {
   const [roles, setRoles] = useState<RoleData[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
 
+  const { toast } = useToast();
+  const [revokingId, setRevokingId] = useState<string | null>(null);
+
   const isLoading = authLoading || roleLoading;
 
   // Redirect non-authorized users
@@ -76,6 +92,23 @@ export default function CommitteeDashboard() {
     if (unitsRes.data) setUnits(unitsRes.data);
     if (rolesRes.data) setRoles(rolesRes.data);
     setDataLoading(false);
+  };
+
+  const handleRevoke = async (userId: string) => {
+    setRevokingId(userId);
+    const { error } = await supabase
+      .from("user_roles")
+      .update({ role: "member" as const, is_approved: true })
+      .eq("user_id", userId)
+      .eq("role", "committee_member");
+
+    if (error) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: "Access Revoked", description: "Committee member access has been revoked. User is now a regular Member." });
+      fetchData();
+    }
+    setRevokingId(null);
   };
 
   // Fetch data once authorized
@@ -177,19 +210,20 @@ export default function CommitteeDashboard() {
                   <div className="overflow-x-auto">
                     <Table>
                       <TableHeader>
-                        <TableRow>
+                         <TableRow>
                           <TableHead>Name</TableHead>
                           <TableHead>Contact</TableHead>
                           <TableHead>Role</TableHead>
                           <TableHead>Status</TableHead>
                           <TableHead>Units</TableHead>
                           <TableHead>Joined</TableHead>
+                          <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {profiles.length === 0 ? (
                           <TableRow>
-                            <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                            <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                               No members registered yet.
                             </TableCell>
                           </TableRow>
@@ -197,6 +231,10 @@ export default function CommitteeDashboard() {
                           profiles.map((profile) => {
                             const role = getRole(profile.id);
                             const memberUnits = getUserUnits(profile.id);
+                            const isApprovedCommittee = role?.role === "committee_member" && role?.is_approved;
+                            const isSelf = profile.id === user?.id;
+                            const isRevoking = revokingId === profile.id;
+
                             return (
                               <TableRow key={profile.id}>
                                 <TableCell className="font-medium">{profile.member_name}</TableCell>
@@ -224,6 +262,46 @@ export default function CommitteeDashboard() {
                                 </TableCell>
                                 <TableCell className="text-muted-foreground text-sm">
                                   {new Date(profile.created_at).toLocaleDateString("en-IN")}
+                                </TableCell>
+                                <TableCell className="text-right">
+                                  {isApprovedCommittee && !isSelf ? (
+                                    <AlertDialog>
+                                      <AlertDialogTrigger asChild>
+                                        <Button
+                                          size="sm"
+                                          variant="outline"
+                                          disabled={isRevoking}
+                                          className="gap-1 text-destructive hover:text-destructive"
+                                        >
+                                          {isRevoking ? (
+                                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                          ) : (
+                                            <ShieldOff className="h-3.5 w-3.5" />
+                                          )}
+                                          Revoke
+                                        </Button>
+                                      </AlertDialogTrigger>
+                                      <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                          <AlertDialogTitle>Revoke Committee Access?</AlertDialogTitle>
+                                          <AlertDialogDescription>
+                                            This will remove <strong>{profile.member_name}</strong>'s committee member privileges and set their role to regular Member. They will lose access to the dashboard and member management features.
+                                          </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                          <AlertDialogAction
+                                            onClick={() => handleRevoke(profile.id)}
+                                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                          >
+                                            Revoke Access
+                                          </AlertDialogAction>
+                                        </AlertDialogFooter>
+                                      </AlertDialogContent>
+                                    </AlertDialog>
+                                  ) : isSelf ? (
+                                    <span className="text-xs text-muted-foreground">You</span>
+                                  ) : null}
                                 </TableCell>
                               </TableRow>
                             );
