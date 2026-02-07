@@ -22,6 +22,7 @@ const unitSchema = z.object({
   unit_number: z.string().trim().min(1, "Unit number is required").max(20),
   wing: z.string().trim().max(20).optional(),
   floor: z.string().trim().max(10).optional(),
+  occupancy_status: z.enum(["self_occupied", "rented", "leased"]),
 });
 
 const signupSchema = z.object({
@@ -38,6 +39,7 @@ interface UnitEntry {
   unit_number: string;
   wing: string;
   floor: string;
+  occupancy_status: "self_occupied" | "rented" | "leased";
 }
 
 export default function Auth() {
@@ -70,12 +72,12 @@ export default function Auth() {
   const [signupPassword, setSignupPassword] = useState("");
   const [role, setRole] = useState<"member" | "committee_member">("member");
   const [units, setUnits] = useState<UnitEntry[]>([
-    { unit_type: "flat", unit_number: "", wing: "", floor: "" },
+    { unit_type: "flat", unit_number: "", wing: "", floor: "", occupancy_status: "self_occupied" },
   ]);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const addUnit = () => {
-    setUnits([...units, { unit_type: "flat", unit_number: "", wing: "", floor: "" }]);
+    setUnits([...units, { unit_type: "flat", unit_number: "", wing: "", floor: "", occupancy_status: "self_occupied" }]);
   };
 
   const removeUnit = (index: number) => {
@@ -162,6 +164,7 @@ export default function Auth() {
             unit_number: unit.unit_number,
             wing: unit.wing || "",
             floor: unit.floor || "",
+            occupancy_status: unit.occupancy_status,
           })),
         },
       },
@@ -428,6 +431,23 @@ export default function Auth() {
                               onChange={(e) => updateUnit(index, "floor", e.target.value)}
                               maxLength={10}
                             />
+                          </div>
+
+                          <div className="space-y-1 col-span-2">
+                            <Label className="text-xs">Occupancy Status *</Label>
+                            <Select
+                              value={unit.occupancy_status}
+                              onValueChange={(v) => updateUnit(index, "occupancy_status", v)}
+                            >
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="self_occupied">Self Occupied</SelectItem>
+                                <SelectItem value="rented">Rented</SelectItem>
+                                <SelectItem value="leased">Leased</SelectItem>
+                              </SelectContent>
+                            </Select>
                           </div>
                         </div>
                         {errors[`units_${index}_unit_number`] && (

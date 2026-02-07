@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { User, Save, Plus, Trash2, Loader2, Mail, Phone as PhoneIcon, Home, Shield, ShieldCheck } from "lucide-react";
+import { User, Save, Plus, Trash2, Loader2, Mail, Phone as PhoneIcon, Home, Shield, ShieldCheck, Car } from "lucide-react";
 import { ChangeEmailDialog } from "@/components/ChangeEmailDialog";
 import { Badge } from "@/components/ui/badge";
 import { z } from "zod";
@@ -26,6 +26,15 @@ interface Unit {
   unit_number: string;
   wing: string | null;
   floor: string | null;
+  occupancy_status: "self_occupied" | "rented" | "leased";
+}
+
+interface ParkingVehicle {
+  id: string;
+  vehicle_type: "two_wheeler" | "four_wheeler";
+  vehicle_number: string;
+  vehicle_make: string | null;
+  vehicle_model: string | null;
 }
 
 const profileSchema = z.object({
@@ -38,7 +47,32 @@ const unitSchema = z.object({
   unit_number: z.string().trim().min(1, "Unit number is required").max(20),
   wing: z.string().trim().max(20).optional(),
   floor: z.string().trim().max(10).optional(),
+  occupancy_status: z.enum(["self_occupied", "rented", "leased"]),
 });
+
+const vehicleSchema = z.object({
+  vehicle_type: z.enum(["two_wheeler", "four_wheeler"]),
+  vehicle_number: z.string().trim().min(1, "Vehicle number is required").max(20),
+  vehicle_make: z.string().trim().max(50).optional(),
+  vehicle_model: z.string().trim().max(50).optional(),
+});
+
+interface EditableUnit {
+  id?: string;
+  unit_type: "flat" | "shop" | "commercial";
+  unit_number: string;
+  wing: string;
+  floor: string;
+  occupancy_status: "self_occupied" | "rented" | "leased";
+}
+
+interface EditableVehicle {
+  id?: string;
+  vehicle_type: "two_wheeler" | "four_wheeler";
+  vehicle_number: string;
+  vehicle_make: string;
+  vehicle_model: string;
+}
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -46,7 +80,6 @@ export default function ProfilePage() {
   const { user, loading: authLoading } = useAuth();
 
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [units, setUnits] = useState<Unit[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -55,12 +88,12 @@ export default function ProfilePage() {
   // Editable state
   const [memberName, setMemberName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
-  const [editableUnits, setEditableUnits] = useState<
-    { id?: string; unit_type: "flat" | "shop" | "commercial"; unit_number: string; wing: string; floor: string }[]
-  >([]);
+  const [editableUnits, setEditableUnits] = useState<EditableUnit[]>([]);
+  const [editableVehicles, setEditableVehicles] = useState<EditableVehicle[]>([]);
 
-  // Track which units were deleted
+  // Track deletions
   const [deletedUnitIds, setDeletedUnitIds] = useState<string[]>([]);
+  const [deletedVehicleIds, setDeletedVehicleIds] = useState<string[]>([]);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -76,10 +109,11 @@ export default function ProfilePage() {
 
   const fetchData = async () => {
     setLoading(true);
-    const [profileRes, unitsRes, roleRes] = await Promise.all([
+    const [profileRes, unitsRes, roleRes, vehiclesRes] = await Promise.all([
       supabase.from("profiles").select("*").eq("id", user!.id).single(),
       supabase.from("units").select("*").eq("user_id", user!.id).order("created_at"),
       supabase.from("user_roles").select("role, is_approved").eq("user_id", user!.id).single(),
+      supabase.from("parking_vehicles").select("*").eq("user_id", user!.id).order("created_at"),
     ]);
 
     if (profileRes.data) {
@@ -89,14 +123,14 @@ export default function ProfilePage() {
     }
 
     if (unitsRes.data) {
-      setUnits(unitsRes.data);
       setEditableUnits(
-        unitsRes.data.map((u) => ({
+        unitsRes.data.map((u: any) => ({
           id: u.id,
           unit_type: u.unit_type,
           unit_number: u.unit_number,
           wing: u.wing || "",
           floor: u.floor || "",
+          occupancy_status: u.occupancy_status || "self_occupied",
         }))
       );
     }
@@ -105,13 +139,26 @@ export default function ProfilePage() {
       setUserRole(roleRes.data);
     }
 
+    if (vehiclesRes.data) {
+      setEditableVehicles(
+        vehiclesRes.data.map((v: any) => ({
+          id: v.id,
+          vehicle_type: v.vehicle_type,
+          vehicle_number: v.vehicle_number,
+          vehicle_make: v.vehicle_make || "",
+          vehicle_model: v.vehicle_model || "",
+        }))
+      );
+    }
+
     setLoading(false);
   };
 
+  // Unit helpers
   const addUnit = () => {
     setEditableUnits([
       ...editableUnits,
-      { unit_type: "flat", unit_number: "", wing: "", floor: "" },
+      { unit_type: "flat", unit_number: "", wing: "", floor: "", occupancy_status: "self_occupied" },
     ]);
   };
 
@@ -127,6 +174,39 @@ export default function ProfilePage() {
     const updated = [...editableUnits];
     updated[index] = { ...updated[index], [field]: value };
     setEditableUnits(updated);
+  };
+
+  // Vehicle helpers
+  const twoWheelerCount = editableVehicles.filter((v) => v.vehicle_type === "two_wheeler").length;
+  const fourWheelerCount = editableVehicles.filter((v) => v.vehicle_type === "four_wheeler").length;
+
+  const addVehicle = (type: "two_wheeler" | "four_wheeler") => {
+    if (type === "two_wheeler" && twoWheelerCount >= 3) {
+      toast({ title: "Limit Reached", description: "Maximum 3 two-wheelers allowed.", variant: "destructive" });
+      return;
+    }
+    if (type === "four_wheeler" && fourWheelerCount >= 2) {
+      toast({ title: "Limit Reached", description: "Maximum 2 four-wheelers allowed.", variant: "destructive" });
+      return;
+    }
+    setEditableVehicles([
+      ...editableVehicles,
+      { vehicle_type: type, vehicle_number: "", vehicle_make: "", vehicle_model: "" },
+    ]);
+  };
+
+  const removeVehicle = (index: number) => {
+    const vehicle = editableVehicles[index];
+    if (vehicle.id) {
+      setDeletedVehicleIds([...deletedVehicleIds, vehicle.id]);
+    }
+    setEditableVehicles(editableVehicles.filter((_, i) => i !== index));
+  };
+
+  const updateVehicle = (index: number, field: string, value: string) => {
+    const updated = [...editableVehicles];
+    updated[index] = { ...updated[index], [field]: value };
+    setEditableVehicles(updated);
   };
 
   const handleSave = async (e: React.FormEvent) => {
@@ -162,6 +242,19 @@ export default function ProfilePage() {
       }
     }
 
+    // Validate vehicles
+    for (let i = 0; i < editableVehicles.length; i++) {
+      const vehicleResult = vehicleSchema.safeParse(editableVehicles[i]);
+      if (!vehicleResult.success) {
+        const fieldErrors: Record<string, string> = {};
+        vehicleResult.error.errors.forEach((err) => {
+          fieldErrors[`vehicles_${i}_${err.path[0]}`] = err.message;
+        });
+        setErrors(fieldErrors);
+        return;
+      }
+    }
+
     setSaving(true);
 
     // Update profile
@@ -178,19 +271,12 @@ export default function ProfilePage() {
 
     // Delete removed units
     if (deletedUnitIds.length > 0) {
-      const { error: deleteError } = await supabase
-        .from("units")
-        .delete()
-        .in("id", deletedUnitIds);
-      if (deleteError) {
-        console.error("Failed to delete units:", deleteError);
-      }
+      await supabase.from("units").delete().in("id", deletedUnitIds);
     }
 
-    // Upsert existing + insert new units
+    // Upsert units
     for (const unit of editableUnits) {
       if (unit.id) {
-        // Update existing
         await supabase
           .from("units")
           .update({
@@ -198,21 +284,51 @@ export default function ProfilePage() {
             unit_number: unit.unit_number,
             wing: unit.wing || null,
             floor: unit.floor || null,
+            occupancy_status: unit.occupancy_status,
           })
           .eq("id", unit.id);
       } else {
-        // Insert new
         await supabase.from("units").insert({
           user_id: user!.id,
           unit_type: unit.unit_type,
           unit_number: unit.unit_number,
           wing: unit.wing || null,
           floor: unit.floor || null,
+          occupancy_status: unit.occupancy_status,
+        });
+      }
+    }
+
+    // Delete removed vehicles
+    if (deletedVehicleIds.length > 0) {
+      await supabase.from("parking_vehicles").delete().in("id", deletedVehicleIds);
+    }
+
+    // Upsert vehicles
+    for (const vehicle of editableVehicles) {
+      if (vehicle.id) {
+        await supabase
+          .from("parking_vehicles")
+          .update({
+            vehicle_type: vehicle.vehicle_type,
+            vehicle_number: vehicle.vehicle_number,
+            vehicle_make: vehicle.vehicle_make || null,
+            vehicle_model: vehicle.vehicle_model || null,
+          })
+          .eq("id", vehicle.id);
+      } else {
+        await supabase.from("parking_vehicles").insert({
+          user_id: user!.id,
+          vehicle_type: vehicle.vehicle_type,
+          vehicle_number: vehicle.vehicle_number,
+          vehicle_make: vehicle.vehicle_make || null,
+          vehicle_model: vehicle.vehicle_model || null,
         });
       }
     }
 
     setDeletedUnitIds([]);
+    setDeletedVehicleIds([]);
     toast({ title: "Profile Updated", description: "Your changes have been saved." });
     await fetchData();
     setSaving(false);
@@ -236,7 +352,7 @@ export default function ProfilePage() {
     <Layout>
       <PageHeader
         title="My Profile"
-        description="View and manage your profile and unit details"
+        description="View and manage your profile, unit, and parking details"
       />
 
       <section className="py-8">
@@ -434,6 +550,23 @@ export default function ProfilePage() {
                           maxLength={10}
                         />
                       </div>
+
+                      <div className="space-y-1 col-span-2">
+                        <Label className="text-xs">Occupancy Status *</Label>
+                        <Select
+                          value={unit.occupancy_status}
+                          onValueChange={(v) => updateUnit(index, "occupancy_status", v)}
+                        >
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="self_occupied">Self Occupied</SelectItem>
+                            <SelectItem value="rented">Rented</SelectItem>
+                            <SelectItem value="leased">Leased</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
 
                     {errors[`units_${index}_unit_number`] && (
@@ -447,6 +580,121 @@ export default function ProfilePage() {
                 {errors.units && (
                   <p className="text-sm text-destructive">{errors.units}</p>
                 )}
+              </div>
+            </div>
+
+            {/* Parking / Vehicle Details */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <Car className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-heading font-semibold text-foreground">
+                      Parking Details
+                    </h2>
+                    <p className="text-xs text-muted-foreground">
+                      Max 3 two-wheelers &amp; 2 four-wheelers
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => addVehicle("two_wheeler")}
+                    disabled={twoWheelerCount >= 3}
+                    className="flex items-center gap-1 text-xs"
+                  >
+                    <Plus className="h-3 w-3" />
+                    Two-Wheeler
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => addVehicle("four_wheeler")}
+                    disabled={fourWheelerCount >= 2}
+                    className="flex items-center gap-1 text-xs"
+                  >
+                    <Plus className="h-3 w-3" />
+                    Four-Wheeler
+                  </Button>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                {editableVehicles.length === 0 && (
+                  <p className="text-sm text-muted-foreground text-center py-4">
+                    No vehicles added. Use the buttons above to add parking details.
+                  </p>
+                )}
+
+                {editableVehicles.map((vehicle, index) => (
+                  <div
+                    key={vehicle.id || `new-v-${index}`}
+                    className="p-4 border border-border rounded-lg space-y-3 bg-muted/30"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-muted-foreground">
+                        {vehicle.vehicle_type === "two_wheeler" ? "🏍️ Two-Wheeler" : "🚗 Four-Wheeler"}
+                        {!vehicle.id && (
+                          <span className="ml-2 text-xs text-primary">(New)</span>
+                        )}
+                      </span>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeVehicle(index)}
+                        className="h-8 w-8 text-destructive hover:text-destructive"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <Label className="text-xs">Vehicle Number *</Label>
+                        <Input
+                          placeholder="e.g. MH-02-AB-1234"
+                          value={vehicle.vehicle_number}
+                          onChange={(e) => updateVehicle(index, "vehicle_number", e.target.value)}
+                          maxLength={20}
+                          required
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <Label className="text-xs">Make</Label>
+                        <Input
+                          placeholder="e.g. Honda"
+                          value={vehicle.vehicle_make}
+                          onChange={(e) => updateVehicle(index, "vehicle_make", e.target.value)}
+                          maxLength={50}
+                        />
+                      </div>
+
+                      <div className="space-y-1 col-span-2">
+                        <Label className="text-xs">Model</Label>
+                        <Input
+                          placeholder="e.g. Activa / City"
+                          value={vehicle.vehicle_model}
+                          onChange={(e) => updateVehicle(index, "vehicle_model", e.target.value)}
+                          maxLength={50}
+                        />
+                      </div>
+                    </div>
+
+                    {errors[`vehicles_${index}_vehicle_number`] && (
+                      <p className="text-sm text-destructive">
+                        {errors[`vehicles_${index}_vehicle_number`]}
+                      </p>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
 
