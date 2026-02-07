@@ -250,7 +250,7 @@ export default function Auth() {
               {/* SIGNUP TAB */}
               <TabsContent value="signup">
                 <form onSubmit={handleSignup} className="space-y-5">
-                  {/* Role Selection */}
+                   {/* Role Selection */}
                   <div className="space-y-2">
                     <Label>I am registering as</Label>
                     <Select value={role} onValueChange={(v: "member" | "committee_member") => setRole(v)}>
@@ -262,6 +262,11 @@ export default function Auth() {
                         <SelectItem value="committee_member">Committee Member</SelectItem>
                       </SelectContent>
                     </Select>
+                    {role === "committee_member" && (
+                      <p className="text-sm text-destructive bg-muted border border-border rounded-md p-2">
+                        ⚠️ Committee Member role requires admin approval. Until approved, you will have standard Member access only.
+                      </p>
+                    )}
                   </div>
 
                   {/* Personal Details */}
