@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserRole } from "@/hooks/useUserRole";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Building2, Clock, CheckCircle2, XCircle, Loader2 } from "lucide-react";
+import { Users, Building2, Clock, CheckCircle2, XCircle, Loader2, ShieldAlert } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -21,6 +21,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
+import { PendingApprovalsTab } from "@/components/PendingApprovalsTab";
 
 interface MemberProfile {
   id: string;
@@ -63,24 +64,23 @@ export default function CommitteeDashboard() {
     }
   }, [isLoading, user, isApprovedCommitteeMember, navigate]);
 
+  const fetchData = async () => {
+    setDataLoading(true);
+    const [profilesRes, unitsRes, rolesRes] = await Promise.all([
+      supabase.from("profiles").select("id, member_name, contact_number, created_at").order("created_at", { ascending: false }),
+      supabase.from("units").select("id, user_id, unit_type, unit_number, wing, floor"),
+      supabase.from("user_roles").select("user_id, role, is_approved"),
+    ]);
+
+    if (profilesRes.data) setProfiles(profilesRes.data);
+    if (unitsRes.data) setUnits(unitsRes.data);
+    if (rolesRes.data) setRoles(rolesRes.data);
+    setDataLoading(false);
+  };
+
   // Fetch data once authorized
   useEffect(() => {
     if (!isApprovedCommitteeMember) return;
-
-    const fetchData = async () => {
-      setDataLoading(true);
-      const [profilesRes, unitsRes, rolesRes] = await Promise.all([
-        supabase.from("profiles").select("id, member_name, contact_number, created_at").order("created_at", { ascending: false }),
-        supabase.from("units").select("id, user_id, unit_type, unit_number, wing, floor"),
-        supabase.from("user_roles").select("user_id, role, is_approved"),
-      ]);
-
-      if (profilesRes.data) setProfiles(profilesRes.data);
-      if (unitsRes.data) setUnits(unitsRes.data);
-      if (rolesRes.data) setRoles(rolesRes.data);
-      setDataLoading(false);
-    };
-
     fetchData();
   }, [isApprovedCommitteeMember]);
 
@@ -150,7 +150,7 @@ export default function CommitteeDashboard() {
               <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
             </div>
           ) : (
-            <Tabs defaultValue="members">
+            <Tabs defaultValue={pendingApprovals > 0 ? "approvals" : "members"}>
               <TabsList className="mb-6">
                 <TabsTrigger value="members" className="flex items-center gap-2">
                   <Users className="h-4 w-4" />
@@ -159,6 +159,15 @@ export default function CommitteeDashboard() {
                 <TabsTrigger value="units" className="flex items-center gap-2">
                   <Building2 className="h-4 w-4" />
                   Units
+                </TabsTrigger>
+                <TabsTrigger value="approvals" className="flex items-center gap-2">
+                  <ShieldAlert className="h-4 w-4" />
+                  Approvals
+                  {pendingApprovals > 0 && (
+                    <Badge variant="destructive" className="ml-1 h-5 min-w-5 px-1.5 text-xs">
+                      {pendingApprovals}
+                    </Badge>
+                  )}
                 </TabsTrigger>
               </TabsList>
 
@@ -269,6 +278,15 @@ export default function CommitteeDashboard() {
                     </Table>
                   </div>
                 </div>
+              </TabsContent>
+              {/* Approvals Tab */}
+              <TabsContent value="approvals">
+                <PendingApprovalsTab
+                  profiles={profiles}
+                  roles={roles}
+                  units={units}
+                  onRoleUpdated={fetchData}
+                />
               </TabsContent>
             </Tabs>
           )}
