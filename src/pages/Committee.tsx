@@ -17,7 +17,7 @@ const committeeMembers = [
     phone: "",
   },
   {
-    name: "Mr. Mayur Shah",
+    name: "Mr. Ashok Chaudhari",
     designation: "Committee Member",
     phone: "",
   },
@@ -27,7 +27,7 @@ const committeeMembers = [
     phone: "",
   },
   {
-    name: "Mr. Ashok Chaudhari",
+    name: "Mr. Mayur Shah",
     designation: "Committee Member",
     phone: "",
   },
