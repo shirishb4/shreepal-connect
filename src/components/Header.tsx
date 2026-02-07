@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Phone, LogIn, LogOut, User } from "lucide-react";
+import { Menu, X, Phone, LogIn, LogOut, User, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUserRole } from "@/hooks/useUserRole";
 import shreepalLogo from "@/assets/shreepal-logo.png";
 
 const navLinks = [
@@ -21,6 +22,7 @@ export function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, signOut, loading } = useAuth();
+  const { isApprovedCommitteeMember } = useUserRole();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -98,6 +100,19 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+            {user && isApprovedCommitteeMember && (
+              <Link
+                to="/dashboard"
+                className={`px-3 py-2 rounded-md transition-colors flex items-center gap-1 text-body font-medium ${
+                  isActive("/dashboard")
+                    ? "bg-secondary text-secondary-foreground"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                }`}
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                Dashboard
+              </Link>
+            )}
             {user && (
               <Link
                 to="/auth"
@@ -146,6 +161,20 @@ export function Header() {
                   {link.label}
                 </Link>
               ))}
+              {user && isApprovedCommitteeMember && (
+                <Link
+                  to="/dashboard"
+                  onClick={() => setIsMenuOpen(false)}
+                  className={`px-4 py-3 rounded-md text-body font-medium transition-colors flex items-center gap-2 ${
+                    isActive("/dashboard")
+                      ? "bg-secondary text-secondary-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  }`}
+                >
+                  <LayoutDashboard className="h-5 w-5" />
+                  Dashboard
+                </Link>
+              )}
               {!user && (
                 <Link
                   to="/auth"
