@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
@@ -44,6 +44,19 @@ export default function Auth() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
+  const [cooldown, setCooldown] = useState(0);
+
+  const startCooldown = useCallback((seconds: number) => {
+    setCooldown(seconds);
+  }, []);
+
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const timer = setInterval(() => {
+      setCooldown((prev) => (prev <= 1 ? 0 : prev - 1));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [cooldown]);
 
   // Login state
   const [loginEmail, setLoginEmail] = useState("");
@@ -149,10 +162,13 @@ export default function Auth() {
 
     if (error) {
       const isRateLimit = error.message?.toLowerCase().includes("rate limit") || error.status === 429;
+      if (isRateLimit) {
+        startCooldown(60);
+      }
       toast({
         title: isRateLimit ? "Too Many Attempts" : "Signup Failed",
         description: isRateLimit
-          ? "Email rate limit exceeded. Please wait a few minutes before trying again."
+          ? "Email rate limit exceeded. Please wait 60 seconds before trying again."
           : error.message,
         variant: "destructive",
       });
@@ -432,8 +448,12 @@ export default function Auth() {
                     )}
                   </div>
 
-                  <Button type="submit" className="w-full" disabled={loading}>
-                    {loading ? "Creating Account..." : "Create Account"}
+                  <Button type="submit" className="w-full" disabled={loading || cooldown > 0}>
+                    {loading
+                      ? "Creating Account..."
+                      : cooldown > 0
+                        ? `Please wait ${cooldown}s`
+                        : "Create Account"}
                   </Button>
                 </form>
               </TabsContent>
