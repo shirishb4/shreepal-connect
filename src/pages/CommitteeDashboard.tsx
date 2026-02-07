@@ -6,7 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useUserRole } from "@/hooks/useUserRole";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Users, Building2, Clock, CheckCircle2, XCircle, Loader2, ShieldAlert, ShieldOff } from "lucide-react";
+import { Users, Building2, Clock, CheckCircle2, XCircle, Loader2, ShieldAlert, ShieldOff, Car } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -50,6 +50,16 @@ interface UnitData {
   unit_number: string;
   wing: string | null;
   floor: string | null;
+  occupancy_status: "self_occupied" | "rented" | "leased";
+}
+
+interface VehicleData {
+  id: string;
+  user_id: string;
+  vehicle_type: "two_wheeler" | "four_wheeler";
+  vehicle_number: string;
+  vehicle_make: string | null;
+  vehicle_model: string | null;
 }
 
 interface RoleData {
@@ -66,6 +76,7 @@ export default function CommitteeDashboard() {
   const [profiles, setProfiles] = useState<MemberProfile[]>([]);
   const [units, setUnits] = useState<UnitData[]>([]);
   const [roles, setRoles] = useState<RoleData[]>([]);
+  const [vehicles, setVehicles] = useState<VehicleData[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
 
   const { toast } = useToast();
@@ -82,15 +93,17 @@ export default function CommitteeDashboard() {
 
   const fetchData = async () => {
     setDataLoading(true);
-    const [profilesRes, unitsRes, rolesRes] = await Promise.all([
+    const [profilesRes, unitsRes, rolesRes, vehiclesRes] = await Promise.all([
       supabase.from("profiles").select("id, member_name, contact_number, created_at").order("created_at", { ascending: false }),
-      supabase.from("units").select("id, user_id, unit_type, unit_number, wing, floor"),
+      supabase.from("units").select("id, user_id, unit_type, unit_number, wing, floor, occupancy_status"),
       supabase.from("user_roles").select("user_id, role, is_approved"),
+      supabase.from("parking_vehicles").select("id, user_id, vehicle_type, vehicle_number, vehicle_make, vehicle_model"),
     ]);
 
     if (profilesRes.data) setProfiles(profilesRes.data);
-    if (unitsRes.data) setUnits(unitsRes.data);
+    if (unitsRes.data) setUnits(unitsRes.data as UnitData[]);
     if (rolesRes.data) setRoles(rolesRes.data);
+    if (vehiclesRes.data) setVehicles(vehiclesRes.data as VehicleData[]);
     setDataLoading(false);
   };
 
@@ -133,10 +146,21 @@ export default function CommitteeDashboard() {
 
   const getRole = (userId: string) => roles.find((r) => r.user_id === userId);
   const getUserUnits = (userId: string) => units.filter((u) => u.user_id === userId);
+  const getUserVehicles = (userId: string) => vehicles.filter((v) => v.user_id === userId);
 
   const totalMembers = profiles.length;
   const totalUnits = units.length;
+  const totalVehicles = vehicles.length;
   const pendingApprovals = roles.filter((r) => r.role === "committee_member" && !r.is_approved).length;
+
+  const occupancyLabel = (status: string) => {
+    switch (status) {
+      case "self_occupied": return "Self Occupied";
+      case "rented": return "Rented";
+      case "leased": return "Leased";
+      default: return status;
+    }
+  };
 
   return (
     <Layout>
@@ -148,7 +172,7 @@ export default function CommitteeDashboard() {
       <section className="py-10 md:py-16">
         <div className="section-container">
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
             <div className="bg-card border border-border rounded-xl p-5 flex items-center gap-4">
               <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center">
                 <Users className="h-6 w-6 text-secondary-foreground" />
@@ -165,6 +189,15 @@ export default function CommitteeDashboard() {
               <div>
                 <p className="text-2xl font-bold text-foreground">{dataLoading ? "–" : totalUnits}</p>
                 <p className="text-sm text-muted-foreground">Registered Units</p>
+              </div>
+            </div>
+            <div className="bg-card border border-border rounded-xl p-5 flex items-center gap-4">
+              <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center">
+                <Car className="h-6 w-6 text-secondary-foreground" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-foreground">{dataLoading ? "–" : totalVehicles}</p>
+                <p className="text-sm text-muted-foreground">Registered Vehicles</p>
               </div>
             </div>
             <div className="bg-card border border-border rounded-xl p-5 flex items-center gap-4">
@@ -192,6 +225,10 @@ export default function CommitteeDashboard() {
                 <TabsTrigger value="units" className="flex items-center gap-2">
                   <Building2 className="h-4 w-4" />
                   Units
+                </TabsTrigger>
+                <TabsTrigger value="parking" className="flex items-center gap-2">
+                  <Car className="h-4 w-4" />
+                  Parking
                 </TabsTrigger>
                 <TabsTrigger value="approvals" className="flex items-center gap-2">
                   <ShieldAlert className="h-4 w-4" />
@@ -324,13 +361,14 @@ export default function CommitteeDashboard() {
                           <TableHead>Type</TableHead>
                           <TableHead>Wing</TableHead>
                           <TableHead>Floor</TableHead>
+                          <TableHead>Occupancy</TableHead>
                           <TableHead>Owner</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {units.length === 0 ? (
                           <TableRow>
-                            <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                            <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
                               No units registered yet.
                             </TableCell>
                           </TableRow>
@@ -347,7 +385,57 @@ export default function CommitteeDashboard() {
                                 </TableCell>
                                 <TableCell>{unit.wing || "–"}</TableCell>
                                 <TableCell>{unit.floor || "–"}</TableCell>
+                                <TableCell>
+                                  <Badge variant={unit.occupancy_status === "self_occupied" ? "default" : "secondary"} className="text-xs">
+                                    {occupancyLabel(unit.occupancy_status)}
+                                  </Badge>
+                                </TableCell>
                                 <TableCell>{owner?.member_name || "Unknown"}</TableCell>
+                              </TableRow>
+                            );
+                          })
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>
+              </TabsContent>
+
+              {/* Parking Tab */}
+              <TabsContent value="parking">
+                <div className="bg-card border border-border rounded-xl overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Owner</TableHead>
+                          <TableHead>Vehicle Type</TableHead>
+                          <TableHead>Vehicle Number</TableHead>
+                          <TableHead>Make</TableHead>
+                          <TableHead>Model</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {vehicles.length === 0 ? (
+                          <TableRow>
+                            <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                              No vehicles registered yet.
+                            </TableCell>
+                          </TableRow>
+                        ) : (
+                          vehicles.map((vehicle) => {
+                            const owner = profiles.find((p) => p.id === vehicle.user_id);
+                            return (
+                              <TableRow key={vehicle.id}>
+                                <TableCell className="font-medium">{owner?.member_name || "Unknown"}</TableCell>
+                                <TableCell>
+                                  <Badge variant="outline">
+                                    {vehicle.vehicle_type === "two_wheeler" ? "🏍️ Two-Wheeler" : "🚗 Four-Wheeler"}
+                                  </Badge>
+                                </TableCell>
+                                <TableCell className="font-mono">{vehicle.vehicle_number}</TableCell>
+                                <TableCell>{vehicle.vehicle_make || "–"}</TableCell>
+                                <TableCell>{vehicle.vehicle_model || "–"}</TableCell>
                               </TableRow>
                             );
                           })
