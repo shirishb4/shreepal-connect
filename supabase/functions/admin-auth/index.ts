@@ -51,7 +51,21 @@ serve(async (req) => {
       });
     }
 
-    throw new Error("Invalid action. Use 'signup' or 'confirm-email'.");
+    // Action: update-user — updates email/password for an existing user
+    if (action === "update-user") {
+      if (!user_id) throw new Error("user_id is required");
+      const updates: Record<string, unknown> = {};
+      if (email) { updates.email = email; updates.email_confirm = true; }
+      if (password) updates.password = password;
+
+      const { data, error } = await supabaseAdmin.auth.admin.updateUserById(user_id, updates);
+      if (error) throw error;
+      return new Response(JSON.stringify({ success: true, user: data.user }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    throw new Error("Invalid action. Use 'signup', 'confirm-email', or 'update-user'.");
   } catch (error: any) {
     console.error("admin-auth error:", error);
     return new Response(
