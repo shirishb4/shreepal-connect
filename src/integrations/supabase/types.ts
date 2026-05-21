@@ -38,6 +38,27 @@ export type Database = {
         }
         Relationships: []
       }
+      document_RAG: {
+        Row: {
+          content: string | null
+          embedding: Json | null
+          id: number
+          metadata: Json | null
+        }
+        Insert: {
+          content?: string | null
+          embedding?: Json | null
+          id: number
+          metadata?: Json | null
+        }
+        Update: {
+          content?: string | null
+          embedding?: Json | null
+          id?: number
+          metadata?: Json | null
+        }
+        Relationships: []
+      }
       document_rows: {
         Row: {
           dataset_id: string | null
