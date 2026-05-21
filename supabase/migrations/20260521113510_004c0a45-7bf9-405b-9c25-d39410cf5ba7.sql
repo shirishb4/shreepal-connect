@@ -1,0 +1,1 @@
+UPDATE public.user_roles SET is_approved = true WHERE user_id = 'e314293c-27f7-4c26-a406-5eca1cf831c0' AND role = 'committee_member';
