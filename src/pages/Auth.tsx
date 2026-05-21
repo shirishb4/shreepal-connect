@@ -175,17 +175,27 @@ export default function Auth() {
 
       if (response.error || response.data?.error) {
         const errorMsg = response.data?.error || response.error?.message || "Signup failed";
-        const isRateLimit = errorMsg.toLowerCase().includes("rate limit");
-        if (isRateLimit) {
-          startCooldown(60);
+        const lower = errorMsg.toLowerCase();
+        const isRateLimit = lower.includes("rate limit");
+        const isDuplicate = lower.includes("already been registered") || lower.includes("already registered") || lower.includes("email_exists");
+        if (isRateLimit) startCooldown(60);
+        if (isDuplicate) {
+          toast({
+            title: "Email Already Registered",
+            description: `An account with ${signupEmail} already exists. Please log in instead, or use 'Forgot Password' to reset it.`,
+            variant: "destructive",
+          });
+          setActiveTab("login");
+          setLoginEmail(signupEmail);
+        } else {
+          toast({
+            title: isRateLimit ? "Too Many Attempts" : "Signup Failed",
+            description: isRateLimit
+              ? "Email rate limit exceeded. Please wait 60 seconds before trying again."
+              : errorMsg,
+            variant: "destructive",
+          });
         }
-        toast({
-          title: isRateLimit ? "Too Many Attempts" : "Signup Failed",
-          description: isRateLimit
-            ? "Email rate limit exceeded. Please wait 60 seconds before trying again."
-            : errorMsg,
-          variant: "destructive",
-        });
         setLoading(false);
         return;
       }
