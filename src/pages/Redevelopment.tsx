@@ -20,12 +20,12 @@ const redevelopmentMembers = [
     phone: "",
   },
   {
-    name: "Mr. Sameer Ghanvatkar",
+    name: "Mr. Nitin Upasani",
     designation: "Committee Member",
     phone: "",
   },
   {
-    name: "Mr. Nitin Upasani",
+    name: "Mr. Sameer Ghanvatkar",
     designation: "Committee Member",
     phone: "",
   },
