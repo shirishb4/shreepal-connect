@@ -10,14 +10,14 @@ export function TopUtilityBar() {
   };
 
   return (
-    <div className="w-full bg-slate-800 text-white px-4 py-2 flex justify-between items-center text-xs md:text-sm">
+    <div className="w-full bg-foreground text-background px-4 py-2 flex justify-between items-center text-xs md:text-sm">
       <span className="font-semibold tracking-wide">
         Shreepal Complex CHS Ltd.
       </span>
-      <div className="flex items-center gap-4 font-bold text-slate-100">
+      <div className="flex items-center gap-4 font-bold">
         <Link
           to="/emergency"
-          className="flex items-center gap-1.5 hover:text-amber-400 transition-colors"
+          className="flex items-center gap-1.5 hover:text-warning transition-colors"
         >
           <Phone className="h-3.5 w-3.5" />
           <span className="hidden sm:inline">Emergency Contacts</span>
@@ -28,7 +28,7 @@ export function TopUtilityBar() {
             {user ? (
               <button
                 onClick={handleSignOut}
-                className="flex items-center gap-1.5 hover:text-amber-400 transition-colors"
+                className="flex items-center gap-1.5 hover:text-warning transition-colors"
               >
                 <LogOut className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">Logout</span>
@@ -36,7 +36,7 @@ export function TopUtilityBar() {
             ) : (
               <Link
                 to="/auth"
-                className="flex items-center gap-1.5 hover:text-amber-400 transition-colors"
+                className="flex items-center gap-1.5 hover:text-warning transition-colors"
               >
                 <LogIn className="h-3.5 w-3.5" />
                 <span>Login</span>
