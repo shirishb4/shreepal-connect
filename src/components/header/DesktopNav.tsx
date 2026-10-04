@@ -22,15 +22,15 @@ export function DesktopNav() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="hidden lg:flex items-center gap-1">
+    <nav className="flex items-center gap-1">
       {navLinks.map((link) => (
         <Link
           key={link.href}
           to={link.href}
           className={`px-3 py-2 text-sm font-medium transition-colors rounded ${
             isActive(link.href)
-              ? "text-slate-900 bg-slate-100 underline underline-offset-4"
-              : "text-slate-600 hover:text-slate-900 hover:underline underline-offset-4"
+              ? "text-foreground bg-muted underline underline-offset-4"
+              : "text-muted-foreground hover:text-foreground hover:underline underline-offset-4"
           }`}
         >
           {link.label}
@@ -41,8 +41,8 @@ export function DesktopNav() {
           to="/dashboard"
           className={`px-3 py-2 text-sm font-medium transition-colors rounded flex items-center gap-1.5 ${
             isActive("/dashboard")
-              ? "text-slate-900 bg-slate-100 underline underline-offset-4"
-              : "text-slate-600 hover:text-slate-900 hover:underline underline-offset-4"
+              ? "text-foreground bg-muted underline underline-offset-4"
+              : "text-muted-foreground hover:text-foreground hover:underline underline-offset-4"
           }`}
         >
           <LayoutDashboard className="h-4 w-4" />
@@ -54,8 +54,8 @@ export function DesktopNav() {
           to="/profile"
           className={`px-3 py-2 text-sm font-medium transition-colors rounded flex items-center gap-1.5 ${
             isActive("/profile")
-              ? "text-slate-900 bg-slate-100 underline underline-offset-4"
-              : "text-slate-600 hover:text-slate-900 hover:underline underline-offset-4"
+              ? "text-foreground bg-muted underline underline-offset-4"
+              : "text-muted-foreground hover:text-foreground hover:underline underline-offset-4"
           }`}
         >
           <User className="h-4 w-4" />

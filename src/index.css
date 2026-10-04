@@ -2,10 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
-
 @layer base {
   :root {
+    color-scheme: dark;
     /* Deep navy/charcoal background for elegance */
     --background: 220 25% 10%;
     --foreground: 45 20% 95%;
@@ -66,6 +65,7 @@
 
   /* Light mode - for those who prefer it */
   .light {
+    color-scheme: light;
     --background: 45 30% 97%;
     --foreground: 220 25% 20%;
     --card: 0 0% 100%;
@@ -83,6 +83,10 @@
     --border: 45 20% 88%;
     --input: 45 20% 88%;
     --ring: 210 60% 25%;
+  }
+
+  .dark {
+    color-scheme: dark;
   }
 }
 
