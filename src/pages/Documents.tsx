@@ -41,7 +41,7 @@ const documents: Record<string, DocumentItem[]> = {
       category: "Latest Government Resolution",
       date: "30 Sep 2026",
       description: "Current Section 79A procedure for developer-led, self, group and cluster redevelopment. It supersedes the 4 July 2019 framework and strengthens member participation, tendering, agreements and project timelines.",
-      source: "Government of Maharashtra — GR No. Sagruyo-2026/Pra.Kra.108/14-S",
+      source: "Government of Maharashtra — आदेश क्र. सगृयो-2026/प्र.क्र.108/14-स",
       actionUrl: "https://gr.maharashtra.gov.in/Site/Upload/Government%20Resolutions/Marathi/202609301657141847.pdf",
     },
     {
@@ -238,7 +238,7 @@ export default function Documents() {
                   <div>
                     <h3 className="font-semibold text-foreground">Key safeguards in the 2026 GR</h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      The reported safeguards include 51% approval of total membership at key stages, at least three bids, recorded meetings, member access to records, registered accommodation agreements before vacating, and defined project timelines.
+                      Key safeguards include 51% approval of total membership at key stages, at least three bids, recorded meetings, member access to records, registered accommodation agreements before vacating, and defined project timelines.
                     </p>
                   </div>
                 </div>
