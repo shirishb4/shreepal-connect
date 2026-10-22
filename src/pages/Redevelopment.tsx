@@ -2,6 +2,7 @@ import { Layout } from "@/components/Layout";
 import { PageHeader } from "@/components/PageHeader";
 import { CommitteeMemberCard } from "@/components/CommitteeMemberCard";
 import rcLogo from "@/assets/rc-logo.png";
+import { WishlistInvitation } from "@/components/WishlistInvitation";
 
 const redevelopmentMembers = [
   {
@@ -39,6 +40,7 @@ export default function Redevelopment() {
         description="Committee members overseeing the society redevelopment project"
       />
 
+      <WishlistInvitation />
       <section className="py-12 md:py-16">
         <div className="section-container">
           {/* Logo Section */}

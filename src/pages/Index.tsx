@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
+import { WishlistInvitation } from "@/components/WishlistInvitation";
 
 const quickLinks = [
   {
@@ -101,6 +102,7 @@ export default function Index() {
       </section>
 
       {/* Emergency Quick Access */}
+      <WishlistInvitation />
       <section className="bg-emergency/5 border-y border-emergency/20 py-6">
         <div className="section-container">
           <div className="flex flex-wrap items-center justify-between gap-4">
