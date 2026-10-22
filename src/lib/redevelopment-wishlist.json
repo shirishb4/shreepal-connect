@@ -1,0 +1,516 @@
+[
+  {
+    "id": "A",
+    "title": "Project vision, planning and approvals",
+    "items": [
+      {
+        "id": "A1",
+        "title": "Overall redevelopment vision",
+        "proposal": "Premium, safe, durable residential environment with transparent commercial/residential planning."
+      },
+      {
+        "id": "A2",
+        "title": "Architect and project consultants",
+        "proposal": "Society to appoint/approve qualified independent architect, PMC, legal adviser and other experts; disclose scope and fees."
+      },
+      {
+        "id": "A3",
+        "title": "Building configuration",
+        "proposal": "Proposed number of floors, wings and building height to be disclosed with approved-plan basis: __________."
+      },
+      {
+        "id": "A4",
+        "title": "Flat count and density",
+        "proposal": "Maximum proposed number of flats: __________; explain impact on lifts, parking, amenities and infrastructure."
+      },
+      {
+        "id": "A5",
+        "title": "Residential use protection",
+        "proposal": "Existing members’ homes to remain residential; sale component use and any mixed-use permissions to comply with approvals and agreed safeguards."
+      },
+      {
+        "id": "A6",
+        "title": "Approvals and development potential",
+        "proposal": "Developer to disclose FSI/TDR/premium/incentive/ancillary FSI assumptions, costs, approvals and feasibility calculations."
+      },
+      {
+        "id": "A7",
+        "title": "MahaRERA",
+        "proposal": "Where applicable, project to be registered with MahaRERA before marketing/sale as legally required; registration details shared with Society."
+      },
+      {
+        "id": "A8",
+        "title": "Offer validity and disclosures",
+        "proposal": "Written offer to state validity, assumptions, exclusions, approvals required, taxes, timelines and conditions."
+      }
+    ]
+  },
+  {
+    "id": "B",
+    "title": "Existing members’ homes and area entitlements",
+    "items": [
+      {
+        "id": "B1",
+        "title": "Existing area verification",
+        "proposal": "Each member’s existing carpet area to be verified from records and jointly reconciled before final offer comparison."
+      },
+      {
+        "id": "B2",
+        "title": "Additional free carpet area",
+        "proposal": "Minimum additional area proposed: _______% of verified existing carpet area; specify carpet-area definition and exclusions clearly."
+      },
+      {
+        "id": "B3",
+        "title": "Area statement",
+        "proposal": "Member-wise statement to show existing carpet area, free additional carpet area, total new carpet area and any optional purchasable area."
+      },
+      {
+        "id": "B4",
+        "title": "Optional extra area purchase",
+        "proposal": "Rate: ₹________ per sq. ft. plus clearly itemised applicable taxes, stamp duty and registration charges."
+      },
+      {
+        "id": "B5",
+        "title": "No hidden deductions",
+        "proposal": "No reduction in promised carpet area through ambiguous definitions, deductions or later reinterpretation."
+      },
+      {
+        "id": "B6",
+        "title": "Flat layout and usability",
+        "proposal": "Members to review sample layouts; adequate ventilation, daylight, storage, furniture placement and practical room dimensions."
+      },
+      {
+        "id": "B7",
+        "title": "Permanent Alternate Accommodation Agreement (PAAA)",
+        "proposal": "Individual PAAA with every eligible member, aligned with Development Agreement and applicable law; developer to bear agreed documentation costs."
+      },
+      {
+        "id": "B8",
+        "title": "Commercial premises",
+        "proposal": "Commercial owners to receive a separate member-wise schedule covering area, frontage, access, signage, services and other agreed entitlements."
+      }
+    ]
+  },
+  {
+    "id": "C",
+    "title": "Financial package and temporary accommodation",
+    "items": [
+      {
+        "id": "C1",
+        "title": "Corpus / hardship compensation",
+        "proposal": "Proposed amount: ₹________ per sq. ft. of verified existing area and/or minimum ₹________ per member; define payment dates."
+      },
+      {
+        "id": "C2",
+        "title": "Corpus calculation example",
+        "proposal": "Illustrative amount for agreed reference area of ______ sq. ft.: ₹________ per member."
+      },
+      {
+        "id": "C3",
+        "title": "Corpus payment security",
+        "proposal": "Payment milestones, default interest and security for unpaid amounts to be written into the agreements."
+      },
+      {
+        "id": "C4",
+        "title": "Transit rent – Year 1",
+        "proposal": "₹________ per month or ₹________ per sq. ft.; specify escalation date and payment in advance."
+      },
+      {
+        "id": "C5",
+        "title": "Transit rent – subsequent years",
+        "proposal": "Year 2: ₹________; Year 3: ₹________; further delay: escalation of _______% or ₹________ per year."
+      },
+      {
+        "id": "C6",
+        "title": "Rent payment protection",
+        "proposal": "Rent to be paid before each rental period; agreed delay compensation and payment security to apply."
+      },
+      {
+        "id": "C7",
+        "title": "Shifting charges",
+        "proposal": "Inward and outward shifting: ₹________ per move / ₹________ total per member."
+      },
+      {
+        "id": "C8",
+        "title": "Brokerage",
+        "proposal": "Brokerage for temporary accommodation: __________ (suggestion: one month’s rent, subject to agreement)."
+      },
+      {
+        "id": "C9",
+        "title": "Refundable rental deposit",
+        "proposal": "Deposit amount and refund responsibility to be recorded; no member should bear an unagreed loss caused by project delay."
+      },
+      {
+        "id": "C10",
+        "title": "Temporary accommodation documentation",
+        "proposal": "Applicable leave-and-license stamp duty, registration and related charges: responsibility to be expressly allocated."
+      },
+      {
+        "id": "C11",
+        "title": "Taxes and transaction costs",
+        "proposal": "A written responsibility matrix for GST, stamp duty, registration, approvals, legal/architect fees and other costs; no unspecified member liability."
+      },
+      {
+        "id": "C12",
+        "title": "Optional purchases",
+        "proposal": "Any member-funded upgrades or extra area must be optional, separately priced and documented."
+      }
+    ]
+  },
+  {
+    "id": "D",
+    "title": "Timeline, security and legal safeguards",
+    "items": [
+      {
+        "id": "D1",
+        "title": "Vacant possession trigger",
+        "proposal": "Members to vacate only after agreed preconditions are fulfilled, including executed agreements, possession/payment protections and required approvals as advised by counsel."
+      },
+      {
+        "id": "D2",
+        "title": "Construction start",
+        "proposal": "Target date for commencement and milestone schedule to be specified, with commencement certificate and other required permissions."
+      },
+      {
+        "id": "D3",
+        "title": "Completion timeline",
+        "proposal": "Target completion: ______ months from the contractually defined commencement date; extensions only as expressly agreed and legally permissible."
+      },
+      {
+        "id": "D4",
+        "title": "Delay compensation",
+        "proposal": "Monthly delay compensation of ₹________ per member / agreed formula until lawful possession is offered and required conditions are met."
+      },
+      {
+        "id": "D5",
+        "title": "Performance bank guarantee",
+        "proposal": "Unconditional, irrevocable bank guarantee from an acceptable scheduled bank: ₹________ or _______% of an independently assessed amount; validity and invocation conditions to be defined by legal adviser."
+      },
+      {
+        "id": "D6",
+        "title": "Funding and encumbrances",
+        "proposal": "Developer to disclose funding arrangements and any proposed security/charge; Society property must not be encumbered contrary to the agreed legal protections."
+      },
+      {
+        "id": "D7",
+        "title": "Termination and step-in rights",
+        "proposal": "Clearly defined events of default, notice/cure periods, termination rights and remedies for prolonged delay, abandonment, insolvency or failure to maintain security."
+      },
+      {
+        "id": "D8",
+        "title": "Indemnity and insurance",
+        "proposal": "Appropriate indemnities and insurance for third-party claims, adjacent-property damage, worker injury, fire, construction risks, statutory violations and damage caused by the project."
+      },
+      {
+        "id": "D9",
+        "title": "Dispute resolution",
+        "proposal": "Escalation, dispute resolution, jurisdiction and interim protection provisions to be reviewed by the Society’s legal adviser."
+      },
+      {
+        "id": "D10",
+        "title": "Handover conditions",
+        "proposal": "Possession only with required Occupation Certificate/permissions, functioning essential services, agreed amenities, defect list and handover documents."
+      }
+    ]
+  },
+  {
+    "id": "E",
+    "title": "Building quality, safety and utilities",
+    "items": [
+      {
+        "id": "E1",
+        "title": "Structure and soil",
+        "proposal": "Soil investigation and structural design/certification by qualified professionals; compliance with applicable codes and seismic/wind-load requirements."
+      },
+      {
+        "id": "E2",
+        "title": "Construction quality",
+        "proposal": "Material brands or equivalent approved standards, workmanship tolerances, inspection rights and test certificates to be documented."
+      },
+      {
+        "id": "E3",
+        "title": "Defect liability",
+        "proposal": "At least the legally applicable defect-liability protection; proposed contractual period: ______ years from the relevant handover/OC date, subject to legal review."
+      },
+      {
+        "id": "E4",
+        "title": "Fire and life safety",
+        "proposal": "Approved fire systems, alarms, extinguishers, emergency lighting, signage, evacuation routes and required fire approvals."
+      },
+      {
+        "id": "E5",
+        "title": "Lifts",
+        "proposal": "Number, capacity and make/specification: ______; adequate passenger lifts and stretcher/cargo provision where feasible; power backup and maintenance plan."
+      },
+      {
+        "id": "E6",
+        "title": "Electrical systems",
+        "proposal": "Adequate sanctioned load, quality wiring, MCB/RCCB/ELCB protection, earthing, surge protection and clearly labelled distribution boards."
+      },
+      {
+        "id": "E7",
+        "title": "Water supply and storage",
+        "proposal": "Adequate municipal supply, storage capacity, treatment where required, metering where feasible and standby pumps."
+      },
+      {
+        "id": "E8",
+        "title": "Water resilience",
+        "proposal": "Rainwater harvesting and lawful alternative arrangements where feasible and approved; no reliance on an unapproved borewell."
+      },
+      {
+        "id": "E9",
+        "title": "Plumbing and drainage",
+        "proposal": "Quality concealed plumbing, accessible maintenance points, leak testing, drainage capacity and prevention of cross-contamination."
+      },
+      {
+        "id": "E10",
+        "title": "Power backup and solar",
+        "proposal": "Backup for lifts, essential common areas, pumps, fire/life-safety systems and other agreed loads; solar generation and its intended loads to be specified."
+      },
+      {
+        "id": "E11",
+        "title": "Internet, DTH and intercom",
+        "proposal": "Provision for fibre/internet, DTH, intercom and video door phone without avoidable exposed wiring."
+      },
+      {
+        "id": "E12",
+        "title": "Gas piping",
+        "proposal": "Gas pipeline provision subject to utility approval and safety requirements; clearly allocate meter and internal connection costs."
+      },
+      {
+        "id": "E13",
+        "title": "Waterproofing and termite treatment",
+        "proposal": "Documented treatment, warranties and test reports for terraces, wet areas, basements and other vulnerable locations."
+      }
+    ]
+  },
+  {
+    "id": "F",
+    "title": "Flat interiors and fixtures",
+    "items": [
+      {
+        "id": "F1",
+        "title": "Flooring",
+        "proposal": "Vitrified tiles or equivalent quality; specify make/grade, size, skirting and finish."
+      },
+      {
+        "id": "F2",
+        "title": "Doors and windows",
+        "proposal": "Durable main door with safety fittings; quality internal doors; aluminium/uPVC windows, mosquito mesh and safe hardware."
+      },
+      {
+        "id": "F3",
+        "title": "Kitchen",
+        "proposal": "Granite or equivalent platform, stainless-steel sink, suitable backsplash tiles, adequate electrical points and water connections."
+      },
+      {
+        "id": "F4",
+        "title": "Kitchen storage and appliances",
+        "proposal": "State whether modular cabinets, chimney and hob are included or optional; identify make, scope and warranty."
+      },
+      {
+        "id": "F5",
+        "title": "Bathrooms and toilets",
+        "proposal": "Full-height or agreed-height tiles, anti-skid flooring, quality sanitaryware and CP fittings; specify brands or equivalent."
+      },
+      {
+        "id": "F6",
+        "title": "Bathroom usability",
+        "proposal": "Adequate ventilation/exhaust, mirror/basin counter, towel/health-faucet points and provision for shower partition."
+      },
+      {
+        "id": "F7",
+        "title": "Electrical points",
+        "proposal": "Member to approve a standard electrical layout; adequate sockets for kitchen appliances, AC, washing machine and work-from-home needs."
+      },
+      {
+        "id": "F8",
+        "title": "Air-conditioner provision",
+        "proposal": "Sleeved copper-drain route and outdoor-unit location for bedrooms/hall, subject to approved façade and drainage design."
+      },
+      {
+        "id": "F9",
+        "title": "Inverter provision",
+        "proposal": "Dedicated inverter circuit for agreed lights/fans and safe changeover arrangement, if included in the offer."
+      },
+      {
+        "id": "F10",
+        "title": "Internal finish and paint",
+        "proposal": "Specified plaster system, paint brand/grade, coats and finish; samples to be approved before bulk execution."
+      },
+      {
+        "id": "F11",
+        "title": "Ceiling height and ventilation",
+        "proposal": "Clear finished ceiling height to be stated in the offer; adequate natural light and cross-ventilation where layout permits."
+      },
+      {
+        "id": "F12",
+        "title": "Dry balcony / utility",
+        "proposal": "Practical utility space and washing-machine point/drainage, subject to approved design and area entitlement."
+      }
+    ]
+  },
+  {
+    "id": "G",
+    "title": "Parking, amenities and common areas",
+    "items": [
+      {
+        "id": "G1",
+        "title": "Member parking entitlement",
+        "proposal": "Proposed parking allocation: ______ per eligible existing member, subject to applicable law and approved design; specify location and dimensions."
+      },
+      {
+        "id": "G2",
+        "title": "Parking design",
+        "proposal": "Preference for independently usable, non-dependent parking; any stack/puzzle system to be transparently disclosed with specifications and operating costs."
+      },
+      {
+        "id": "G3",
+        "title": "Visitor and accessible parking",
+        "proposal": "Visitor parking and accessible parking provisions to be assessed against applicable requirements and site feasibility."
+      },
+      {
+        "id": "G4",
+        "title": "Entrance and lobby",
+        "proposal": "Secure, well-lit entrance lobby with durable flooring, signage and step-free access where feasible."
+      },
+      {
+        "id": "G5",
+        "title": "Society office and records",
+        "proposal": "Furnished society office with storage, electrical/data points and space for meetings and records."
+      },
+      {
+        "id": "G6",
+        "title": "Security infrastructure",
+        "proposal": "CCTV in agreed common areas, access control, video door phone, secure gate and suitable watchman/security cabin."
+      },
+      {
+        "id": "G7",
+        "title": "Compound and landscape",
+        "proposal": "Secure compound wall, main and pedestrian gates, lighting, drainage, planting and safe pedestrian pathways."
+      },
+      {
+        "id": "G8",
+        "title": "Staircases and corridors",
+        "proposal": "Non-slip finishes, handrails, ventilation, emergency lighting and unobstructed escape routes."
+      },
+      {
+        "id": "G9",
+        "title": "Terrace and recreation",
+        "proposal": "Waterproofed terrace and agreed landscaped/recreation area; define permitted use, access, safety and maintenance."
+      },
+      {
+        "id": "G10",
+        "title": "Staff facilities",
+        "proposal": "Common toilet and appropriate housekeeping/security facilities, subject to plan and feasibility."
+      },
+      {
+        "id": "G11",
+        "title": "Waste management",
+        "proposal": "Segregated waste storage and collection area designed to minimise odour, pests and inconvenience."
+      },
+      {
+        "id": "G12",
+        "title": "Accessibility",
+        "proposal": "Step-free access where feasible, accessible routes and other measures required by applicable regulations."
+      },
+      {
+        "id": "G13",
+        "title": "Maintenance handover",
+        "proposal": "As-built drawings, warranties, equipment manuals, service contracts and training for Society-appointed representatives."
+      }
+    ]
+  },
+  {
+    "id": "H",
+    "title": "Commercial premises and protection of residents",
+    "items": [
+      {
+        "id": "H1",
+        "title": "Commercial owner requirements",
+        "proposal": "Record each commercial owner’s area, frontage, access, signage, parking, loading, utilities and compensation/temporary arrangements separately."
+      },
+      {
+        "id": "H2",
+        "title": "Separate access and circulation",
+        "proposal": "Assess separate residential and commercial access, lifts and circulation where feasible and permitted."
+      },
+      {
+        "id": "H3",
+        "title": "Noise, odour and vibration",
+        "proposal": "Design and enforce controls to prevent commercial activity from unreasonably affecting homes, balconies, windows and common areas."
+      },
+      {
+        "id": "H4",
+        "title": "Kitchen exhaust / restaurant use",
+        "proposal": "Any restaurant/hotel exhaust, grease control, filtration, fire protection and discharge route must be designed and approved to protect residents and comply with law."
+      },
+      {
+        "id": "H5",
+        "title": "Fire safety and waste",
+        "proposal": "Commercial units to meet applicable fire, waste, grease-trap and pest-control requirements; responsibility for operation and upkeep to be clear."
+      },
+      {
+        "id": "H6",
+        "title": "Utility metering and costs",
+        "proposal": "Separate metering where feasible and a transparent method to allocate electricity, water, repairs and common expenses by use."
+      },
+      {
+        "id": "H7",
+        "title": "Deliveries and operations",
+        "proposal": "Loading/unloading, delivery timing, staff/visitor movement, signage and traffic arrangements to minimise disturbance and obstruction."
+      },
+      {
+        "id": "H8",
+        "title": "Use restrictions and enforcement",
+        "proposal": "Permitted commercial uses and mechanisms to address nuisance or safety violations to be reviewed by legal counsel and included where lawful."
+      }
+    ]
+  },
+  {
+    "id": "I",
+    "title": "Process, transparency and member review",
+    "items": [
+      {
+        "id": "I1",
+        "title": "Independent feasibility report",
+        "proposal": "Compare proposed member benefits, sale component, project costs, approvals, timelines, risks and developer returns through the Society’s appointed professionals."
+      },
+      {
+        "id": "I2",
+        "title": "Offer comparison",
+        "proposal": "Use a common comparison sheet for all developers: area, corpus, rent, parking, specifications, guarantees, timeline, exclusions and conditions."
+      },
+      {
+        "id": "I3",
+        "title": "Member consultation",
+        "proposal": "Provide members sufficient time to review the proposal and submit written comments before decisions are taken."
+      },
+      {
+        "id": "I4",
+        "title": "Document access",
+        "proposal": "Share relevant offers, feasibility assumptions, draft agreements, approval status and consultant recommendations with members, subject to lawful confidentiality."
+      },
+      {
+        "id": "I5",
+        "title": "Sample flat / material approvals",
+        "proposal": "Provide material samples, specifications and sample layouts for review through a documented approval process before finalisation."
+      },
+      {
+        "id": "I6",
+        "title": "Change control",
+        "proposal": "No material change to agreed area, specifications, amenities or member benefits without the contractually required Society/member approval."
+      },
+      {
+        "id": "I7",
+        "title": "Commercial and residential financial transparency",
+        "proposal": "Show the financial impact of residential and commercial components separately where practicable, and explain assumptions affecting member benefits."
+      },
+      {
+        "id": "I8",
+        "title": "Final approval process",
+        "proposal": "All appointments, selections, agreements and material decisions to follow applicable law, registered bye-laws and required General Body/SGM approvals."
+      }
+    ]
+  }
+]
