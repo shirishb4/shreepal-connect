@@ -18,6 +18,7 @@ import ResetPassword from "./pages/ResetPassword";
 import ProfilePage from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import { ThemeProvider } from "@/components/theme-provider";
+import RedevelopmentWishlist from "./pages/RedevelopmentWishlist";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/committee" element={<Committee />} />
             <Route path="/redevelopment" element={<Redevelopment />} />
+             <Route path="/redevelopment/wishlist" element={<RedevelopmentWishlist />} />
             <Route path="/emergency" element={<Emergency />} />
             <Route path="/documents" element={<Documents />} />
             <Route path="/notices" element={<Notices />} />
